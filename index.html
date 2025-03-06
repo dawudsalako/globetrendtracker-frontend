@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grocery Price Predictor</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <body>
+
+        <!-- Welcome Screen -->
+        <div id="welcome-screen" class="welcome-screen">
+            <img src="IMG_2245.png" alt="Globetrend Tracker Logo" class="welcome-logo">
+            <h1>Welcome to Globetrend Tracker</h1>
+            <p>An Intelligent Budgeting Tool</p>
+            <button onclick="showMainContent()">Let's Get Started</button>
+        </div>
+    
+        <!-- Main Content (Initially Hidden) -->
+        <div id="main-content" class="hidden">
+    
+            <!-- Header Section -->
+            <div class="header">
+                <img src="IMG_2245.png" alt="Globetrend Tracker Logo" class="logo">
+                <div class="intro">
+                    <h1>Globetrend Tracker: An Intelligent Budgeting Tool</h1>
+                    <p>Globetrend Tracker is an intelligent budgeting tool that predicts and compares future grocery costs based on dietary preferences. Leveraging machine learning forecasting, it analyzes key economic factors such as 
+                        inflation, gasoline prices, and U.S. climate change trends to provide valuable insights into how grocery prices will evolve over time. With this data-driven approach, users can make informed budgeting decisions 
+                        and prepare for the future with confidence.</p>
+                </div>
+            </div>
+    
+            <!-- Category Information -->
+            <div class="category-info">
+                <h2>Dietary Categories</h2>
+                <p><strong>Vegan:</strong> Plant-based diet with no animal products.</p>
+                <p><strong>Balanced:</strong> Mix of plant and animal-based foods.</p>
+                <p><strong>Keto:</strong> High in animal products like meat and dairy.</p>
+                <p><strong>Vegetarian:</strong> No meat, but includes dairy and eggs.</p>
+            </div>
+    
+            <!-- Prediction Form -->
+            <label for="category">Select Your Category:</label>
+            <select id="category">
+                <option value="Vegan">Vegan</option>
+                <option value="Balanced">Balanced</option>
+                <option value="Keto">Keto</option>
+                <option value="Vegetarian">Vegetarian</option>
+            </select>
+    
+            <label for="bill">Enter Your Weekly Grocery Bill ($):</label>
+            <input type="number" id="bill" min="1" placeholder="Enter amount">
+    
+            <label for="year">Select Year:</label>
+            <select id="year">
+                <option value="2030">2030</option>
+                <option value="2040">2040</option>
+                <option value="2050">2050</option>
+            </select>
+    
+            <button onclick="predictPrice()">Predict</button>
+    
+            <h2>Predicted Grocery Prices for <span id="selectedYear"></span></h2>
+            <ul id="result"></ul>
+    
+        </div>
+    
+        <script>
+            function showMainContent() {
+                document.getElementById("welcome-screen").style.display = "none";
+                document.getElementById("main-content").style.display = "block";
+            }
+        </script>
+    
+    </body><script>
+        function predictPrice() {
+            const category = document.getElementById("category").value;
+            const bill = document.getElementById("bill").value;
+            const selectedYear = document.getElementById("year").value;
+    
+            if (!bill || bill <= 0) {
+                alert("Please enter a valid weekly grocery bill.");
+                return;
+            }
+    
+            fetch(`https://globetrendtracker.com/predict?category=${category}&bill=${bill}&year=${selectedYear}`)
+                .then(response => response.json())
+                .then(data => {
+                    const predictions = data.predictions;
+                    const selectedCategory = data.selected_category;
+    
+                    document.getElementById("selectedYear").innerText = selectedYear;
+                    let resultHTML = "";
+    
+                    Object.keys(predictions).forEach(cat => {
+                        let highlightStyle = cat === selectedCategory ? "font-weight: bold; color: #007bff;" : "";
+                        resultHTML += `<li style="${highlightStyle}">${cat}: $${predictions[cat]}</li>`;
+                    });
+    
+                    document.getElementById("result").innerHTML = resultHTML;
+                })
+                .catch(error => {
+                    console.error("Error fetching prediction:", error);
+                    alert("Failed to fetch data. Make sure Flask is running.");
+                });
+        }
+    </script>        
+    </script>
+</body>
+</html>

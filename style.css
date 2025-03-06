@@ -1,0 +1,215 @@
+/* General Page Styling */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #e9f5e9; /* Soft pastel green */
+    color: #1b4332; /* Deep green for readability */
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+/* Page Container */
+.container {
+    width: 50%;
+    margin: auto;
+    padding: 25px;
+    background: #ffffff; /* White container for contrast */
+    border-radius: 12px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+    margin-top: 50px;
+    transition: 0.3s;
+}
+
+/* Header Section */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: #2d6a4f; /* Rich green */
+    border-bottom: 3px solid #1b4332; /* Darker green accent */
+    color: white;
+}
+
+/* Logo */
+.logo {
+        width: 300px; /* Adjust the size (Increase if needed) */
+        height: auto;
+        margin-right: 20px;
+       
+}
+
+/* Title & Introduction */
+.intro {
+    flex: 1;
+    text-align: left;
+}
+
+.intro h1 {
+    color: #ffffff;
+    font-size: 26px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.intro p {
+    font-size: 16px;
+    color: #d8f3dc; /* Soft green text */
+    max-width: 600px;
+}
+
+/* Category Info Section */
+.category-info {
+    background: #f0fff4; /* Light mint green */
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+/* Forms & Inputs */
+label {
+    font-size: 18px;
+    font-weight: bold;
+    display: block;
+    margin-top: 15px;
+    color: #1b4332; /* Dark green */
+}
+
+input, select {
+    font-size: 16px;
+    padding: 10px;
+    width: 85%;
+    margin: 5px 0;
+    border: 2px solid #40916c; /* Medium green */
+    border-radius: 8px;
+    background-color: #ffffff;
+    transition: 0.3s;
+}
+
+input:focus, select:focus {
+    border-color: #1b4332;
+    outline: none;
+}
+
+/* Buttons */
+button {
+    background-color: #2d6a4f; /* Dark green */
+    color: white;
+    padding: 12px 18px;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+    width: 100%;
+    border-radius: 8px;
+    transition: background 0.3s, transform 0.2s;
+}
+
+button:hover {
+    background-color: #1b4332;
+    transform: scale(1.05);
+}
+
+/* Predicted Results */
+h2 {
+    margin-top: 20px;
+    color: #1b4332; /* Dark green */
+}
+
+/* Highlighting Selected Category */
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    font-size: 18px;
+    padding: 8px;
+    border-radius: 5px;
+    margin: 5px 0;
+    background: #edf6f0; /* Soft pastel green */
+    color: #1b4332;
+    transition: 0.3s;
+}
+
+/* Highlight the selected category */
+li[style*="font-weight: bold"] {
+    background-color: #74c69d; /* Brighter green */
+    color: white;
+    padding: 10px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+/* Mobile Responsive */
+@media screen and (max-width: 768px) {
+    .container {
+        width: 90%;
+    }
+
+    .intro h1 {
+        font-size: 22px;
+    }
+
+    input, select {
+        width: 100%;
+    }
+}
+/* Welcome Screen */
+.welcome-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #2d6a4f;
+    color: white;
+    text-align: center;
+}
+
+.welcome-logo {
+    width: 350px; /* Adjust logo size */
+    margin-bottom: 20px;
+}
+
+.welcome-screen h1 {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.welcome-screen p {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.welcome-screen button {
+    background-color: #74c69d;
+    color: #1b4332;
+    padding: 12px 20px;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.welcome-screen button:hover {
+    background-color: #40916c;
+    transform: scale(1.05);
+}
+
+/* Initially Hide Main Content */
+.hidden {
+    display: none;
+}
+
+/* Main Content Styling */
+#main-content {
+    display: none; /* Hidden until the user clicks "Let's Get Started" */
+}
+
+
