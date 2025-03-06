@@ -84,7 +84,7 @@
                 return;
             }
     
-            fetch(`https://globetrendtracker.com/predict?category=${category}&bill=${bill}&year=${selectedYear}`)
+            fetch(`https://globetrendtracker-backend.onrender.com/predict?category=${category}&bill=${bill}&year=${selectedYear}`)
                 .then(response => response.json())
                 .then(data => {
                     const predictions = data.predictions;
