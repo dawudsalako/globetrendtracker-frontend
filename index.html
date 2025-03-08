@@ -3,109 +3,162 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grocery Price Predictor</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Globetrend Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f9eb;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 50%;
+            margin: auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+        }
+
+        h1 {
+            color: #1b4332;
+        }
+
+        label {
+            font-size: 18px;
+            font-weight: bold;
+            display: block;
+            margin-top: 15px;
+        }
+
+        input, select {
+            font-size: 16px;
+            padding: 8px;
+            width: 80%;
+            margin: 5px 0;
+        }
+
+        button {
+            background-color: #1b4332;
+            color: white;
+            padding: 10px 15px;
+            font-size: 18px;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #2d6a4f;
+        }
+
+        h2 {
+            margin-top: 20px;
+            color: #333;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            font-size: 18px;
+            padding: 5px;
+        }
+
+        li[style*="font-weight: bold"] {
+            background-color: #b7e4c7;
+            padding: 8px;
+            border-radius: 5px;
+        }
+    </style>
 </head>
 <body>
-    <body>
 
-        <!-- Welcome Screen -->
-        <div id="welcome-screen" class="welcome-screen">
-            <img src="IMG_2245.png" alt="Globetrend Tracker Logo" class="welcome-logo">
-            <h1>Welcome to Globetrend Tracker</h1>
-            <p>An Intelligent Budgeting Tool</p>
-            <button onclick="showMainContent()">Let's Get Started</button>
-        </div>
-    
-        <!-- Main Content (Initially Hidden) -->
-        <div id="main-content" class="hidden">
-    
-            <!-- Header Section -->
-            <div class="header">
-                <img src="IMG_2245.png" alt="Globetrend Tracker Logo" class="logo">
-                <div class="intro">
-                    <h1>Globetrend Tracker: An Intelligent Budgeting Tool</h1>
-                    <p>Globetrend Tracker is an intelligent budgeting tool that predicts and compares future grocery costs based on dietary preferences. Leveraging machine learning forecasting, it analyzes key economic factors such as 
-                        inflation, gasoline prices, and U.S. climate change trends to provide valuable insights into how grocery prices will evolve over time. With this data-driven approach, users can make informed budgeting decisions 
-                        and prepare for the future with confidence.</p>
-                </div>
-            </div>
-    
-            <!-- Category Information -->
-            <div class="category-info">
-                <h2>Dietary Categories</h2>
-                <p><strong>Vegan:</strong> Plant-based diet with no animal products.</p>
-                <p><strong>Balanced:</strong> Mix of plant and animal-based foods.</p>
-                <p><strong>Keto:</strong> High in animal products like meat and dairy.</p>
-                <p><strong>Vegetarian:</strong> No meat, but includes dairy and eggs.</p>
-            </div>
-    
-            <!-- Prediction Form -->
-            <label for="category">Select Your Category:</label>
-            <select id="category">
-                <option value="Vegan">Vegan</option>
-                <option value="Balanced">Balanced</option>
-                <option value="Keto">Keto</option>
-                <option value="Vegetarian">Vegetarian</option>
-            </select>
-    
-            <label for="bill">Enter Your Weekly Grocery Bill ($):</label>
-            <input type="number" id="bill" min="1" placeholder="Enter amount">
-    
-            <label for="year">Select Year:</label>
-            <select id="year">
-                <option value="2030">2030</option>
-                <option value="2040">2040</option>
-                <option value="2050">2050</option>
-            </select>
-    
-            <button onclick="predictPrice()">Predict</button>
-    
-            <h2>Predicted Grocery Prices for <span id="selectedYear"></span></h2>
-            <ul id="result"></ul>
-    
-        </div>
-    
-        <script>
-            function showMainContent() {
-                document.getElementById("welcome-screen").style.display = "none";
-                document.getElementById("main-content").style.display = "block";
+    <div class="container">
+        <h1>Globetrend Tracker</h1>
+        <p>Predict future grocery prices based on your dietary preference.</p>
+
+        <label for="category">Choose a dietary category:</label>
+        <select id="category">
+            <option value="Vegan">Vegan</option>
+            <option value="Balanced">Balanced</option>
+            <option value="Meat and Dairy Heavy">Meat and Dairy Heavy</option>
+            <option value="Vegetarian">Vegetarian</option>
+        </select>
+
+        <label for="bill">Enter your weekly grocery bill ($):</label>
+        <input type="number" id="bill" min="1" placeholder="Enter amount">
+
+        <label for="year">Select a year:</label>
+        <select id="year">
+            <option value="2030">2030</option>
+            <option value="2040">2040</option>
+            <option value="2050">2050</option>
+        </select>
+
+        <button onclick="predictPrice()">Predict</button>
+
+        <h2>Predicted Prices for <span id="selectedYear">____</span></h2>
+        <ul id="result"></ul>
+    </div>
+
+    <script>
+        async function fetchWithRetry(url, retries = 5, delay = 5000) {
+            for (let i = 0; i < retries; i++) {
+                try {
+                    console.log(`Fetching data: ${url}`);
+                    let response = await fetch(url);
+                    if (response.ok) {
+                        return await response.json();
+                    }
+                } catch (error) {
+                    console.warn(`Attempt ${i + 1} failed. Retrying in ${delay / 1000} seconds...`);
+                    await new Promise(res => setTimeout(res, delay));
+                }
             }
-        </script>
-    
-    </body><script>
-        function predictPrice() {
+            throw new Error("Failed to fetch data after multiple attempts.");
+        }
+
+        async function predictPrice() {
             const category = document.getElementById("category").value;
             const bill = document.getElementById("bill").value;
             const selectedYear = document.getElementById("year").value;
-    
+
             if (!bill || bill <= 0) {
                 alert("Please enter a valid weekly grocery bill.");
                 return;
             }
-    
-            fetch(`https://globetrendtracker-backend.onrender.com/predict?category=${category}&bill=${bill}&year=${selectedYear}`)
-                .then(response => response.json())
-                .then(data => {
-                    const predictions = data.predictions;
-                    const selectedCategory = data.selected_category;
-    
-                    document.getElementById("selectedYear").innerText = selectedYear;
-                    let resultHTML = "";
-    
-                    Object.keys(predictions).forEach(cat => {
-                        let highlightStyle = cat === selectedCategory ? "font-weight: bold; color: #007bff;" : "";
-                        resultHTML += `<li style="${highlightStyle}">${cat}: $${predictions[cat]}</li>`;
-                    });
-    
-                    document.getElementById("result").innerHTML = resultHTML;
-                })
-                .catch(error => {
-                    console.error("Error fetching prediction:", error);
-                    alert("Failed to fetch data. Make sure Flask is running.");
+
+            const url = `https://globetrendtracker-backend.onrender.com/predict?category=${category}&bill=${bill}&year=${selectedYear}`;
+
+            try {
+                console.log("Sending request to: " + url);
+                const data = await fetchWithRetry(url);
+                console.log("Received response:", data);
+                const predictions = data.predictions;
+                const selectedCategory = data.selected_category;
+
+                document.getElementById("selectedYear").innerText = selectedYear;
+                let resultHTML = "";
+
+                Object.keys(predictions).forEach(cat => {
+                    let highlightStyle = cat === selectedCategory ? "font-weight: bold; color: #007bff;" : "";
+                    resultHTML += `<li style="${highlightStyle}">${cat}: $${predictions[cat]}</li>`;
                 });
+
+                document.getElementById("result").innerHTML = resultHTML;
+            } catch (error) {
+                console.error("Error fetching prediction:", error);
+                alert("Failed to fetch data. Make sure Flask is running.");
+            }
         }
-    </script>        
     </script>
+
 </body>
 </html>
